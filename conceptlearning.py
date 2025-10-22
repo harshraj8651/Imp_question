@@ -1,34 +1,19 @@
-import pandas as pd
-import numpy as np
+# Simple Concept Learning using Find-S Algorithm
+data = [
+    (['Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same'], 'Yes'),
+    (['Sunny', 'Warm', 'High', 'Strong', 'Warm', 'Same'], 'Yes'),
+    (['Rainy', 'Cold', 'High', 'Strong', 'Warm', 'Change'], 'No'),
+    (['Sunny', 'Warm', 'High', 'Strong', 'Cool', 'Change'], 'Yes')
+]
 
-data = pd.read_csv("data.csv")
-print(data,"n")
+hypothesis = ['?' for _ in range(len(data[0][0]))]
 
-d = np.array(data)[:,:-1]
-print("n The attributes are: ",d)
+for attributes, label in data:
+    if label == 'Yes':
+        for i in range(len(hypothesis)):
+            if hypothesis[i] == '?' or hypothesis[i] == attributes[i]:
+                hypothesis[i] = attributes[i]
+            else:
+                hypothesis[i] = '?'
 
-target = np.array(data)[:,-1]
-print("n The target is: ",target)
-
-def train(c,t):
-
-    specific_hypothesis = None
-    for i, val in enumerate(t):
-        if val == "Yes": 
-            specific_hypothesis = c[i].copy()
-            break
-
-    if specific_hypothesis is None:
-       
-        print("No positive examples found in the training data.")
-        return None 
-
-    for i, val in enumerate(c):
-        if t[i] == "Yes":
-            for x in range(len(specific_hypothesis)):
-                if val[x] != specific_hypothesis[x]:
-                    specific_hypothesis[x] = '?'
-    return specific_hypothesis
-
-
-print("n The final hypothesis is:",train(d,target))
+print("Final Hypothesis:", hypothesis)
