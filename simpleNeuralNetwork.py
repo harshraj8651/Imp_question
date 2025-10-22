@@ -1,3 +1,8 @@
+import pandas as pd
+import numpy as np
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+
 data = pd.read_csv('/content/diabetes.csv')
 
 X = data.iloc[:, 0:8].values
